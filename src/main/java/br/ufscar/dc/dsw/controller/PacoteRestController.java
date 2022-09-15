@@ -3,8 +3,10 @@ package br.ufscar.dc.dsw.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +55,23 @@ public class PacoteRestController {
 		} catch (IOException e) {
 			return false;
 		}
- }
+ 	}
+
+	@SuppressWarnings("unchecked")
+	private void parse(Agencia agencia, JSONObject json) {
+
+		Map<String, Object> map = (Map<String, Object>) json.get("agencia");
+
+		Object id = map.get("id");
+		if (id instanceof Integer) {
+			agencia.setId(((Integer) id).longValue());
+		} else {
+			agencia.setId(((Long) id));
+		}
+
+		agencia.setCNPJ((String) map.get("cnpj"));
+		agencia.setDescricao((String) map.get("descricao"));
+	}
 
 	private void parse(Pacote pacote, JSONObject json) {
 		
@@ -64,11 +82,21 @@ public class PacoteRestController {
 			} else {
 				pacote.setId((Long) id);
 			}
- 	}
+ 		}
+		 System.out.println("fee");
 		pacote.setCidade((String) json.get("cidade"));
+		System.out.println("fefef");
 		pacote.setData_partida((String) json.get("data_partida"));
-		/*pacote.setNome((String) json.get("nome"));
-		pacote.setSigla((String) json.get("sigla"));*/
+		pacote.setDuracao((Integer) json.get("duracao"));
+		pacote.setEstado((String) json.get("estado"));
+		pacote.setPais((String) json.get("pais"));
+		Double value = (Double) json.get("preco");
+		pacote.setValor(BigDecimal.valueOf(value));
+		pacote.setDescricao((String) json.get("descricao"));
+		pacote.setAgencia((Agencia) json.get("agencia"));
+		Agencia age = new Agencia();
+		parse(age, json);
+		pacote.setAgencia(age);
  }
 
 	@GetMapping(path = "/pacotes")
