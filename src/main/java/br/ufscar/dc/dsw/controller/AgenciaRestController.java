@@ -33,13 +33,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.domain.Agencia;
-import br.ufscar.dc.dsw.domain.Agencia;
-import br.ufscar.dc.dsw.service.spec.IAgenciaService;
 import br.ufscar.dc.dsw.service.spec.IAgenciaService;
 
 @CrossOrigin
 @RestController
 public class AgenciaRestController {
+
+	@Autowired
+	private IAgenciaService service;
 
     private boolean isJSONValid(String jsonInString) {
 		try {
@@ -47,7 +48,7 @@ public class AgenciaRestController {
 		} catch (IOException e) {
 			return false;
 		}
- }
+ 	}
 
 	private void parse(Agencia agencia, JSONObject json) {
 		
@@ -60,13 +61,13 @@ public class AgenciaRestController {
 			}
  	}
 
-		agencia.setNome((String) json.get("nome"));
-		agencia.setSigla((String) json.get("sigla"));
+		/*agencia.setNome((String) json.get("nome"));
+		agencia.setSigla((String) json.get("sigla"));*/
  }
 
 	@GetMapping(path = "/agencias")
 	public ResponseEntity<List<Agencia>> lista() {
-		List<Agencia> lista = service.findAll();
+		List<Agencia> lista = service.buscarTodos();
 		if (lista.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
@@ -75,7 +76,7 @@ public class AgenciaRestController {
 
 	@GetMapping(path = "/agencias/{id}")
 	public ResponseEntity<Agencia> lista(@PathVariable("id") long id) {
-		Agencia agencia = service.findById(id);
+		Agencia agencia = service.buscarPorId(id);
 		if (agencia == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -89,7 +90,7 @@ public class AgenciaRestController {
 			if (isJSONValid(json.toString())) {
 				Agencia agencia = new Agencia();
 				parse(agencia, json);
-				service.save(agencia);
+				service.salvar(agencia);
 				return ResponseEntity.ok(agencia);
 			} else {
 				return ResponseEntity.badRequest().body(null);
@@ -104,12 +105,12 @@ public class AgenciaRestController {
 	public ResponseEntity<Agencia> atualiza(@PathVariable("id") long id, @RequestBody JSONObject json) {
 		try {
 			if (isJSONValid(json.toString())) {
-				Agencia agencia = service.findById(id);
+				Agencia agencia = service.buscarPorId(id);
 				if (agencia == null) {
 					return ResponseEntity.notFound().build();
 				} else {
 					parse(agencia, json);
-					service.save(agencia);
+					service.salvar(agencia);
 					return ResponseEntity.ok(agencia);
 				}
 			} else {
@@ -123,11 +124,11 @@ public class AgenciaRestController {
 	@DeleteMapping(path = "/agencias/{id}")
  public ResponseEntity<Boolean> remove(@PathVariable("id") long id) {
 
-		Agencia agencia = service.findById(id);
+		Agencia agencia = service.buscarPorId(id);
 		if (agencia == null) {
 			return ResponseEntity.notFound().build();
 		} else {
-			service.delete(id);
+			service.excluir(id);
 			return ResponseEntity.noContent().build();
 		}
 	}

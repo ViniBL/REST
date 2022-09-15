@@ -70,22 +70,22 @@ public class CompraRestController {
 			}
  	}
 
-		compra.setNome((String) json.get("nome"));
-		compra.setSigla((String) json.get("sigla"));
+		/*compra.setNome((String) json.get("nome"));
+		compra.setSigla((String) json.get("sigla"));*/
  }
 
-	@GetMapping(path = "/compras")
+	/*@GetMapping(path = "/compras")
 	public ResponseEntity<List<Compra>> lista() {
-		List<Compra> lista = service.findAll();
+		List<Compra> lista = service.bus();
 		if (lista.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(lista);
- }
+ }*/
 
 	@GetMapping(path = "/compras/{id}")
 	public ResponseEntity<Compra> lista(@PathVariable("id") long id) {
-		Compra compra = service.findById(id);
+		Compra compra = service.buscarPorId(id);
 		if (compra == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -99,7 +99,7 @@ public class CompraRestController {
 			if (isJSONValid(json.toString())) {
 				Compra compra = new Compra();
 				parse(compra, json);
-				service.save(compra);
+				service.salvar(compra);
 				return ResponseEntity.ok(compra);
 			} else {
 				return ResponseEntity.badRequest().body(null);
@@ -114,12 +114,12 @@ public class CompraRestController {
 	public ResponseEntity<Compra> atualiza(@PathVariable("id") long id, @RequestBody JSONObject json) {
 		try {
 			if (isJSONValid(json.toString())) {
-				Compra compra = service.findById(id);
+				Compra compra = service.buscarPorId(id);
 				if (compra == null) {
 					return ResponseEntity.notFound().build();
 				} else {
 					parse(compra, json);
-					service.save(compra);
+					service.salvar(compra);
 					return ResponseEntity.ok(compra);
 				}
 			} else {
@@ -130,15 +130,15 @@ public class CompraRestController {
 		}
  }
 
-	@DeleteMapping(path = "/compras/{id}")
+	/*@DeleteMapping(path = "/compras/{id}")
  public ResponseEntity<Boolean> remove(@PathVariable("id") long id) {
 
-		Compra compra = service.findById(id);
+		Compra compra = service.buscarPorId(id);
 		if (compra == null) {
 			return ResponseEntity.notFound().build();
 		} else {
-			service.delete(id);
+			service.excl(id);
 			return ResponseEntity.noContent().build();
 		}
-	}
+	}*/
 }

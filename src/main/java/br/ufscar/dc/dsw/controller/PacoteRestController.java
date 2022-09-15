@@ -42,7 +42,7 @@ import br.ufscar.dc.dsw.service.spec.IPacoteService;
 public class PacoteRestController {
 
 	@Autowired
-	private IPacoteService pacoteService;
+	private IPacoteService service;
 
 	@Autowired
 	private IAgenciaService agenciaService;
@@ -65,14 +65,15 @@ public class PacoteRestController {
 				pacote.setId((Long) id);
 			}
  	}
-
-		pacote.setNome((String) json.get("nome"));
-		pacote.setSigla((String) json.get("sigla"));
+		pacote.setCidade((String) json.get("cidade"));
+		pacote.setData_partida((String) json.get("data_partida"));
+		/*pacote.setNome((String) json.get("nome"));
+		pacote.setSigla((String) json.get("sigla"));*/
  }
 
 	@GetMapping(path = "/pacotes")
 	public ResponseEntity<List<Pacote>> lista() {
-		List<Pacote> lista = service.findAll();
+		List<Pacote> lista = service.buscarTodos();
 		if (lista.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
@@ -81,7 +82,7 @@ public class PacoteRestController {
 
 	@GetMapping(path = "/pacotes/{id}")
 	public ResponseEntity<Pacote> lista(@PathVariable("id") long id) {
-		Pacote pacote = service.findById(id);
+		Pacote pacote = service.buscarPorId(id);
 		if (pacote == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -91,17 +92,21 @@ public class PacoteRestController {
 	@PostMapping(path = "/pacotes")
 	@ResponseBody
 	public ResponseEntity<Pacote> cria(@RequestBody JSONObject json) {
+		System.out.println(json);
 		try {
 			if (isJSONValid(json.toString())) {
+
 				Pacote pacote = new Pacote();
+				System.out.println("fe");
 				parse(pacote, json);
-				service.save(pacote);
+				service.salvar(pacote);
+				System.out.println("ent");
 				return ResponseEntity.ok(pacote);
 			} else {
 				return ResponseEntity.badRequest().body(null);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
 		}
  }
@@ -110,12 +115,12 @@ public class PacoteRestController {
 	public ResponseEntity<Pacote> atualiza(@PathVariable("id") long id, @RequestBody JSONObject json) {
 		try {
 			if (isJSONValid(json.toString())) {
-				Pacote pacote = service.findById(id);
+				Pacote pacote = service.buscarPorId(id);
 				if (pacote == null) {
 					return ResponseEntity.notFound().build();
 				} else {
 					parse(pacote, json);
-					service.save(pacote);
+					service.salvar(pacote);
 					return ResponseEntity.ok(pacote);
 				}
 			} else {
@@ -129,11 +134,11 @@ public class PacoteRestController {
 	@DeleteMapping(path = "/pacotes/{id}")
  public ResponseEntity<Boolean> remove(@PathVariable("id") long id) {
 
-		Pacote pacote = service.findById(id);
+		Pacote pacote = service.buscarPorId(id);
 		if (pacote == null) {
 			return ResponseEntity.notFound().build();
 		} else {
-			service.delete(id);
+			service.excluir(id);
 			return ResponseEntity.noContent().build();
 		}
 	}
