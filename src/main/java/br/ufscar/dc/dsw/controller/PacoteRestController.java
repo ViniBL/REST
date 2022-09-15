@@ -1,5 +1,6 @@
 package br.ufscar.dc.dsw.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -35,9 +36,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.domain.Agencia;
+import br.ufscar.dc.dsw.domain.Compra;
 import br.ufscar.dc.dsw.domain.Pacote;
+import br.ufscar.dc.dsw.domain.Usuario;
 import br.ufscar.dc.dsw.service.spec.IAgenciaService;
+import br.ufscar.dc.dsw.service.spec.ICompraService;
 import br.ufscar.dc.dsw.service.spec.IPacoteService;
+import br.ufscar.dc.dsw.service.spec.IUsuarioService;
 
 @CrossOrigin
 @RestController
@@ -45,9 +50,12 @@ public class PacoteRestController {
 
 	@Autowired
 	private IPacoteService service;
+	
+	@Autowired
+	private IUsuarioService serviceClient;
 
 	@Autowired
-	private IAgenciaService agenciaService;
+	private ICompraService serviceCompra;
 	
     private boolean isJSONValid(String jsonInString) {
 		try {
@@ -108,14 +116,21 @@ public class PacoteRestController {
 		return ResponseEntity.ok(lista);
  }
 
-	@GetMapping(path = "/pacotes/{id}")
-	public ResponseEntity<Pacote> lista(@PathVariable("id") long id) {
-		Pacote pacote = service.buscarPorId(id);
-		if (pacote == null) {
+	@GetMapping(path = "/pacotes/clientes/{id}")
+	public ResponseEntity<List<Pacote>> lista(@PathVariable("id") long id) {
+		Usuario cliente = serviceClient.buscarPorId(id);
+		List<Compra> clientePacote = serviceCompra.buscarTodosPorUsuario(cliente);
+
+		if (cliente == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(pacote);
- }
+
+		List<Pacote> pacotes = new ArrayList<>();
+		for(int i = 0; i < clientePacote.size(); i++) {
+			pacotes.set(i, clientePacote.get(i).getPacote());
+		}
+		return ResponseEntity.ok(pacotes);
+ 	}
 
 	@PostMapping(path = "/pacotes")
 	@ResponseBody

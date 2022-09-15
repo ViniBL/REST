@@ -2,14 +2,14 @@ package br.ufscar.dc.dsw.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
 
 import java.io.IOException;
-import java.util.List;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,16 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.domain.Agencia;
 import br.ufscar.dc.dsw.service.spec.IAgenciaService;
@@ -48,24 +38,32 @@ public class AgenciaRestController {
 		} catch (IOException e) {
 			return false;
 		}
- 	}
+ }
 
+ 	//@SuppressWarnings("unchecked")
 	private void parse(Agencia agencia, JSONObject json) {
-		
+		//Map<String, Object> map = (Map<String, Object>) json.get("agencia");
+
 		Object id = json.get("id");
-		if (id != null) {
+		if(id != null){
 			if (id instanceof Integer) {
 				agencia.setId(((Integer) id).longValue());
 			} else {
 				agencia.setId((Long) id);
 			}
+		}
+
+		agencia.setName((String) json.get("name"));
+		agencia.setUsername((String) json.get("username"));
+		agencia.setCNPJ((String) json.get("CNPJ"));
+		agencia.setDescricao((String) json.get("descricao"));
+		agencia.setEnabled(true);
+		agencia.setPassword((String) json.get("password"));
+		agencia.setRole("ROLE_AGENCIA");
  	}
 
-		/*agencia.setNome((String) json.get("nome"));
-		agencia.setSigla((String) json.get("sigla"));*/
- }
-
 	@GetMapping(path = "/agencias")
+	
 	public ResponseEntity<List<Agencia>> lista() {
 		List<Agencia> lista = service.buscarTodos();
 		if (lista.isEmpty()) {
@@ -85,18 +83,21 @@ public class AgenciaRestController {
 
 	@PostMapping(path = "/agencias")
 	@ResponseBody
-	public ResponseEntity<Agencia> cria(@RequestBody JSONObject json) {
+	public ResponseEntity<Agencia> cria(@RequestBody JSONObject json, BCryptPasswordEncoder encoder) {
 		try {
 			if (isJSONValid(json.toString())) {
 				Agencia agencia = new Agencia();
 				parse(agencia, json);
+				agencia.setPassword(encoder.encode(agencia.getPassword()));
 				service.salvar(agencia);
 				return ResponseEntity.ok(agencia);
 			} else {
 				return ResponseEntity.badRequest().body(null);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("\n\n\n\n\n\n");
+			System.out.println(e.getMessage());
+			System.out.println("\n\n\n\n\n\n");
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
 		}
  }
@@ -127,9 +128,12 @@ public class AgenciaRestController {
 		Agencia agencia = service.buscarPorId(id);
 		if (agencia == null) {
 			return ResponseEntity.notFound().build();
-		} else {
+		} else if(!agencia.getPacotes().isEmpty()){
+			return ResponseEntity.ok(false);
+		}
+		else{
 			service.excluir(id);
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.ok(true);
 		}
 	}
 }

@@ -51,7 +51,7 @@ public class UsuarioRestController {
 		cliente.setUsername((String) json.get("username"));
 		cliente.setTelefone((String) json.get("telefone"));
 		cliente.setPassword((String) json.get("password"));
-		cliente.setRole((String) json.get("role"));
+		cliente.setRole("ROLE_USUARIO");
 		cliente.setEnabled(true);
 		cliente.setSexo((String) json.get("sexo"));
 		cliente.setDataNascimento((String) json.get("dataNascimento"));

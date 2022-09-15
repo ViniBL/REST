@@ -12,6 +12,7 @@ import br.ufscar.dc.dsw.dao.IAgenciaDAO;
 import br.ufscar.dc.dsw.dao.IPacoteDAO;
 import br.ufscar.dc.dsw.dao.IUsuarioDAO;
 import br.ufscar.dc.dsw.domain.Agencia;
+import br.ufscar.dc.dsw.domain.Compra;
 import br.ufscar.dc.dsw.domain.Pacote;
 import br.ufscar.dc.dsw.domain.Usuario;
 
@@ -49,7 +50,6 @@ public class LivrariaMvcApplication {
 			u2.setSexo("M");
 			u2.setDataNascimento("01-01-2000");
 			usuarioDAO.save(u2);
-			
 
 			Usuario u3 = new Usuario();
 			u3.setUsername("user2");
@@ -128,6 +128,11 @@ public class LivrariaMvcApplication {
 			l3.setPais("não posso falar");
 			l3.setData_partida("19/09/2022");
 			pacoteDAO.save(l3);
+
+			Compra compra =  new Compra();
+			compra.setPacote(l1);
+			compra.setUsuario(u1);
+			compra.setStatus("comprado");
 		};
 	}
 }

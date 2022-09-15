@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import br.ufscar.dc.dsw.validation.UniqueCNPJ;
 
@@ -22,13 +23,13 @@ public class Agencia extends GenericUsuario {
 	@Size(min = 18, max = 18, message = "{Size.agencia.CNPJ}")
 	@Column(nullable = false, unique = true, length = 60)
 	private String CNPJ;
-	
 
 	@NotBlank 
 	@Size(min = 0, max = 256)
 	@Column(nullable = false, length = 256)
 	private String descricao;
 
+	@JsonBackReference
 	@OneToMany(mappedBy = "agencia")
 	private List<Pacote> pacotes;
 
