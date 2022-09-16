@@ -98,7 +98,7 @@ public class ViaGra {
 			agenciaDAO.save(a3);
 			
 			Pacote p1 = new Pacote();
-			p1.setDescricao("Ensaio sobre a Cegueira");
+			p1.setDescricao("Ida e vinda para Sumaré");
 			p1.setDuracao(19);
 			p1.setValor(BigDecimal.valueOf(420.69));
 			p1.setAgencia(a1);
