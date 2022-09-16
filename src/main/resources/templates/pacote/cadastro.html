@@ -119,6 +119,16 @@
 							<span th:errors="*{valor}"></span>
 						</div>
 					</div>
+					<div class="form-group col-md-6">
+						<label th:text="#{pacote.fotos.label}" for="fotos"></label> 
+						<input type="file" accept='fotos/*' class="form-control" id="fotos" 
+							data-mask="000000,00" data-mask-reverse="true" th:field="*{fotos}" 
+							th:classappend="${#fields.hasErrors('fotos')} ? is-invalid" />
+						
+						<div class="invalid-feedback">
+							<span th:errors="*{fotos}"></span>
+						</div>
+					</div>
 				</div>
 
 				<input type="hidden" id="id" th:field="*{id}" />

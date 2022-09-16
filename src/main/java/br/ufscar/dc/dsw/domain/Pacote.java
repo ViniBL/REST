@@ -13,6 +13,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import main.java.br.ufscar.dc.dsw.domain.Fotos;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "Pacote")
@@ -60,7 +62,21 @@ public class Pacote extends AbstractEntity<Long> {
 	@JoinColumn(name = "agencia_id")
 	private Agencia agencia;
 
+	@NotNull(message = "{NotNull.pacote.fotos}")
+	@OneToMany(mappedBy = "fotos")
+	private List<Fotos> fotos;
 
+	public List<Fotos> getFotos() {
+		return fotos;
+	}
+
+	public void addFoto(Foto foto){
+		this.fotos.add(foto);
+	}
+
+	public void setFotos(List<Fotos> fotos) {
+		this.fotos = fotos;
+	}
 public void setDuracao(int duracao) {
 	this.duracao = duracao;
 }
