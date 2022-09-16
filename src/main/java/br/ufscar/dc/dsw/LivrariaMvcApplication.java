@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.ufscar.dc.dsw.dao.IAgenciaDAO;
+import br.ufscar.dc.dsw.dao.ICompraDAO;
 import br.ufscar.dc.dsw.dao.IPacoteDAO;
 import br.ufscar.dc.dsw.dao.IUsuarioDAO;
 import br.ufscar.dc.dsw.domain.Agencia;
@@ -24,7 +25,7 @@ public class LivrariaMvcApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(IUsuarioDAO usuarioDAO, BCryptPasswordEncoder encoder, IAgenciaDAO agenciaDAO, IPacoteDAO pacoteDAO) {
+	public CommandLineRunner demo(IUsuarioDAO usuarioDAO, BCryptPasswordEncoder encoder, IAgenciaDAO agenciaDAO, IPacoteDAO pacoteDAO, ICompraDAO compraDAO) {
 		return (args) -> {
 
 			Usuario u1 = new Usuario();
@@ -131,8 +132,9 @@ public class LivrariaMvcApplication {
 
 			Compra compra =  new Compra();
 			compra.setPacote(l1);
-			compra.setUsuario(u1);
-			compra.setStatus("comprado");
+			compra.setUsuario(u2);
+			compra.setStatus("VIGENTE");
+			compraDAO.save(compra);
 		};
 	}
 }

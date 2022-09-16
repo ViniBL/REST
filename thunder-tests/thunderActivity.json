@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "bdc5152e-e30b-44eb-940e-73dd4179cadf",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:8080/agencias",
+    "url": "localhost:8080/agencias",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-09-15T20:13:52.507Z",
+    "modified": "2022-09-15T20:20:46.999Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]

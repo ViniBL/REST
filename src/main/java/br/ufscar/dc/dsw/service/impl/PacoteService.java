@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufscar.dc.dsw.dao.IPacoteDAO;
+import br.ufscar.dc.dsw.domain.Agencia;
 import br.ufscar.dc.dsw.domain.Pacote;
 import br.ufscar.dc.dsw.service.spec.IPacoteService;
 
@@ -33,5 +34,25 @@ public class PacoteService implements IPacoteService {
 	@Transactional(readOnly = true)
 	public List<Pacote> buscarTodos() {
 		return dao.findAll();
+	}
+
+	@Transactional(readOnly = true)
+	public List<Pacote> buscarTodosPorAgencia(Agencia a) {
+		return dao.findAllByAgencia(a);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Pacote> buscarTodosPorCidade(String a) {
+		return dao.findAllByCidade(a);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Pacote> buscarTodosPorEstado(String a) {
+		return dao.findAllByEstado(a);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Pacote> buscarTodosPorPais(String a) {
+		return dao.findAllByPais(a);
 	}
 }
