@@ -18,10 +18,10 @@ import br.ufscar.dc.dsw.domain.Pacote;
 import br.ufscar.dc.dsw.domain.Usuario;
 
 @SpringBootApplication
-public class LivrariaMvcApplication {
+public class ViaGra {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LivrariaMvcApplication.class, args);
+		SpringApplication.run(ViaGra.class, args);
 	}
 
 	@Bean
@@ -65,73 +65,73 @@ public class LivrariaMvcApplication {
 			usuarioDAO.save(u3);
 			
 
-			Agencia e1 = new Agencia();
-			e1.setUsername("agencia1");
-			e1.setPassword(encoder.encode("agencia1"));
-			e1.setName("Companhia Aéria");
-			e1.setRole("ROLE_AGENCIA");
-			e1.setEnabled(true);
-			e1.setCNPJ("55.789.390/0008-99");
-			e1.setDescricao("Viagens de avião");
-			agenciaDAO.save(e1);
+			Agencia a1 = new Agencia();
+			a1.setUsername("agencia1");
+			a1.setPassword(encoder.encode("agencia1"));
+			a1.setName("Companhia Aéria");
+			a1.setRole("ROLE_AGENCIA");
+			a1.setEnabled(true);
+			a1.setCNPJ("55.789.390/0008-99");
+			a1.setDescricao("Viagens de avião");
+			agenciaDAO.save(a1);
 			
 
-			Agencia e2 = new Agencia();
-			e2.setUsername("agencia2");
-			e2.setPassword(encoder.encode("agencia2"));
-			e2.setName("Companhia Ferroviária");
-			e2.setRole("ROLE_AGENCIA");
-			e2.setEnabled(true);
-			e2.setCNPJ("71.150.470/0001-40");
-			e2.setDescricao("Viagens de trem");
-			agenciaDAO.save(e2);
+			Agencia a2 = new Agencia();
+			a2.setUsername("agencia2");
+			a2.setPassword(encoder.encode("agencia2"));
+			a2.setName("Companhia Ferroviária");
+			a2.setRole("ROLE_AGENCIA");
+			a2.setEnabled(true);
+			a2.setCNPJ("71.150.470/0001-40");
+			a2.setDescricao("Viagens de trem");
+			agenciaDAO.save(a2);
 			
 
-			Agencia e3 = new Agencia();
-			e3.setUsername("agencia3");
-			e3.setPassword(encoder.encode("agencia3"));
-			e3.setName("Companhia Marítima");
-			e3.setRole("ROLE_AGENCIA");
-			e3.setEnabled(true);
-			e3.setCNPJ("32.106.536/0001-82");
-			e3.setDescricao("Viagens de canoa");
-			agenciaDAO.save(e3);
+			Agencia a3 = new Agencia();
+			a3.setUsername("agencia3");
+			a3.setPassword(encoder.encode("agencia3"));
+			a3.setName("Companhia Marítima");
+			a3.setRole("ROLE_AGENCIA");
+			a3.setEnabled(true);
+			a3.setCNPJ("32.106.536/0001-82");
+			a3.setDescricao("Viagens de canoa");
+			agenciaDAO.save(a3);
 			
-			Pacote l1 = new Pacote();
-			l1.setDescricao("Ensaio sobre a Cegueira");
-			l1.setDuracao(19);
-			l1.setValor(BigDecimal.valueOf(420.69));
-			l1.setAgencia(e1);
-			l1.setCidade("Sumaré");
-			l1.setEstado("SP");
-			l1.setPais("não posso falar");
-			l1.setData_partida("19/09/2022");
-			pacoteDAO.save(l1);
+			Pacote p1 = new Pacote();
+			p1.setDescricao("Ensaio sobre a Cegueira");
+			p1.setDuracao(19);
+			p1.setValor(BigDecimal.valueOf(420.69));
+			p1.setAgencia(a1);
+			p1.setCidade("Sumaré");
+			p1.setEstado("SP");
+			p1.setPais("não posso falar");
+			p1.setData_partida("19/09/2022");
+			pacoteDAO.save(p1);
 			
-			Pacote l2 = new Pacote();
-			l2.setDescricao("Aprenda a bolar com o Vini");
-			l2.setDuracao(19);
-			l2.setValor(BigDecimal.valueOf(420.69));
-			l2.setAgencia(e1);
-			l2.setCidade("Sumaré");
-			l2.setEstado("SP");
-			l2.setPais("não posso falar");
-			l2.setData_partida("19/09/2022");
-			pacoteDAO.save(l2);
+			Pacote p2 = new Pacote();
+			p2.setDescricao("Aprenda a bolar com o Vini");
+			p2.setDuracao(19);
+			p2.setValor(BigDecimal.valueOf(420.69));
+			p2.setAgencia(a1);
+			p2.setCidade("Sumaré");
+			p2.setEstado("SP");
+			p2.setPais("não posso falar");
+			p2.setData_partida("19/09/2022");
+			pacoteDAO.save(p2);
 
-			Pacote l3 = new Pacote();
-			l3.setDescricao("Ensaio sobre o Vini");
-			l3.setDuracao(19);
-			l3.setValor(BigDecimal.valueOf(420.69));
-			l3.setAgencia(e2);
-			l3.setCidade("Sumaré");
-			l3.setEstado("SP");
-			l3.setPais("não posso falar");
-			l3.setData_partida("19/09/2022");
-			pacoteDAO.save(l3);
+			Pacote p3 = new Pacote();
+			p3.setDescricao("Ensaio sobre o Vini");
+			p3.setDuracao(19);
+			p3.setValor(BigDecimal.valueOf(420.69));
+			p3.setAgencia(a2);
+			p3.setCidade("Sumaré");
+			p3.setEstado("SP");
+			p3.setPais("não posso falar");
+			p3.setData_partida("19/09/2022");
+			pacoteDAO.save(p3);
 
 			Compra compra =  new Compra();
-			compra.setPacote(l1);
+			compra.setPacote(p1);
 			compra.setUsuario(u2);
 			compra.setStatus("VIGENTE");
 			compraDAO.save(compra);
