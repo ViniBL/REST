@@ -121,7 +121,7 @@ public class ViaGra {
 
 			Pacote p3 = new Pacote();
 			p3.setDescricao("Ensaio sobre o Vini");
-			p3.setDuracao(19);
+			p3.setDuracao(20);
 			p3.setValor(BigDecimal.valueOf(420.69));
 			p3.setAgencia(a2);
 			p3.setCidade("Sumaré");
