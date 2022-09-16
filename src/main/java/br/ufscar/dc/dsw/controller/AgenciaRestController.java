@@ -38,11 +38,9 @@ public class AgenciaRestController {
 		} catch (IOException e) {
 			return false;
 		}
- }
+ 	}
 
- 	//@SuppressWarnings("unchecked")
 	private void parse(Agencia agencia, JSONObject json) {
-		//Map<String, Object> map = (Map<String, Object>) json.get("agencia");
 
 		Object id = json.get("id");
 		if(id != null){

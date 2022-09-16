@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.ufscar.dc.dsw.dao.IAgenciaDAO;
+import br.ufscar.dc.dsw.dao.ICompraDAO;
 import br.ufscar.dc.dsw.dao.IPacoteDAO;
 import br.ufscar.dc.dsw.dao.IUsuarioDAO;
 import br.ufscar.dc.dsw.domain.Agencia;
@@ -24,7 +25,7 @@ public class ViaGra {
 	}
 
 	@Bean
-	public CommandLineRunner demo(IUsuarioDAO usuarioDAO, BCryptPasswordEncoder encoder, IAgenciaDAO agenciaDAO, IPacoteDAO pacoteDAO) {
+	public CommandLineRunner demo(IUsuarioDAO usuarioDAO, BCryptPasswordEncoder encoder, IAgenciaDAO agenciaDAO, IPacoteDAO pacoteDAO, ICompraDAO compraDAO) {
 		return (args) -> {
 
 			Usuario u1 = new Usuario();
@@ -133,6 +134,7 @@ public class ViaGra {
 			compra.setPacote(p1);
 			compra.setUsuario(u1);
 			compra.setStatus("comprado");
+			compraDAO.save(compra);
 		};
 	}
 }
